@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { CartsService } from './carts.service';
 
 @Controller('carts')
@@ -11,12 +11,8 @@ export class CartsController {
   }
 
   @Get(':id')
-  getCartById(@Param('id') id: string) {
-    const numberId = parseInt(id, 10);
-    if (isNaN(numberId)) {
-      return { message: 'Invalid cart ID' };
-    }
-    const cart = this.cartsService.findById(numberId);
+  getCartById(@Param('id', ParseIntPipe) id: number) {
+    const cart = this.cartsService.findById(id);
 
     return cart ? cart : { message: 'Cart not found' };
   }
