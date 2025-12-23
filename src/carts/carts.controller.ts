@@ -1,25 +1,22 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { CartsService } from './carts.service';
 
 @Controller('carts')
 export class CartsController {
-  private carts = [
-    { id: 1, items: ['Bear', 'Car'] },
-    { id: 2, items: ['Bike', 'Scooter'] },
-  ];
+  constructor(private readonly cartsService: CartsService) {}
 
   @Get()
   getCarts() {
-    return this.carts;
+    return this.cartsService.findAll();
   }
 
   @Get(':id')
   getCartById(@Param('id') id: string) {
-    console.log('Fetching cart with id:', id);
     const numberId = parseInt(id, 10);
     if (isNaN(numberId)) {
       return { message: 'Invalid cart ID' };
     }
-    const cart = this.carts.find((cart) => cart.id === numberId);
+    const cart = this.cartsService.findById(numberId);
 
     return cart ? cart : { message: 'Cart not found' };
   }
