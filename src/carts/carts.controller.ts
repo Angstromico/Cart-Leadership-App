@@ -1,4 +1,10 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { CartsService } from './carts.service';
 
 @Controller('carts')
@@ -14,6 +20,10 @@ export class CartsController {
   getCartById(@Param('id', ParseIntPipe) id: number) {
     const cart = this.cartsService.findById(id);
 
-    return cart ? cart : { message: 'Cart not found' };
+    if (!cart) {
+      throw new NotFoundException(`Cart with id ${id} not found`);
+    }
+
+    return cart;
   }
 }
