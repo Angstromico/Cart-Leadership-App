@@ -1,27 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-
-export interface Cart {
-  id: number;
-  items: string[];
-}
-
-export interface OptionalCart {
-  id?: number;
-  items?: string[];
-}
+import type { Cart, OptionalCart } from './interfaces/car.interface';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CartsService {
   private carts: Cart[] = [
-    { id: 1, items: ['Bear', 'Car'] },
-    { id: 2, items: ['Bike', 'Scooter'] },
+    { id: uuidv4(), items: ['Bear', 'Car'] },
+    { id: uuidv4(), items: ['Bike', 'Scooter'] },
   ];
 
   findAll() {
     return this.carts;
   }
 
-  findById(id: number) {
+  findById(id: string) {
     return this.carts.find((cart) => cart.id === id);
   }
 
@@ -41,7 +33,7 @@ export class CartsService {
     return null;
   }
 
-  update(id: number, cartData: OptionalCart) {
+  update(id: string, cartData: OptionalCart) {
     const cartIndex = this.carts.findIndex((cart) => cart.id === id);
     if (cartIndex === -1) {
       throw new BadRequestException(`Cart with id ${id} not found`);
@@ -57,7 +49,7 @@ export class CartsService {
     return updatedCart;
   }
 
-  delete(id: number) {
+  delete(id: string) {
     const cartIndex = this.carts.findIndex((cart) => cart.id === id);
     if (cartIndex === -1) {
       throw new BadRequestException(`Cart with id ${id} not found`);

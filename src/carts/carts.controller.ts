@@ -5,11 +5,12 @@ import {
   Get,
   NotFoundException,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
-import { CartsService, type OptionalCart } from './carts.service';
+import { CartsService } from './carts.service';
+import type { OptionalCart } from './interfaces/car.interface';
 
 @Controller('carts')
 export class CartsController {
@@ -21,7 +22,7 @@ export class CartsController {
   }
 
   @Get(':id')
-  getCartById(@Param('id', ParseIntPipe) id: number) {
+  getCartById(@Param('id', ParseUUIDPipe) id: string) {
     const cart = this.cartsService.findById(id);
 
     if (!cart) {
@@ -42,7 +43,7 @@ export class CartsController {
 
   @Patch(':id')
   updateCart(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() body: OptionalCart,
   ) {
     this.cartsService.update(id, body);
@@ -51,7 +52,7 @@ export class CartsController {
   }
 
   @Delete(':id')
-  deleteCart(@Param('id', ParseIntPipe) id: number) {
+  deleteCart(@Param('id', ParseUUIDPipe) id: string) {
     this.cartsService.delete(id);
 
     return { message: 'Cart deleted successfully' };
