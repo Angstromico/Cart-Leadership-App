@@ -35,8 +35,6 @@ export class CartsController {
 
   @Post()
   createCart(@Body() body: CreateCartDTO) {
-    console.log(body);
-
     this.cartsService.create(body);
 
     return { message: 'Cart created successfully' };
