@@ -8,6 +8,8 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import type { OptionalCart } from './interfaces/car.interface';
@@ -34,6 +36,7 @@ export class CartsController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
   createCart(@Body() body: CreateCartDTO) {
     this.cartsService.create(body);
 
