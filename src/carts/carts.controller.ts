@@ -16,6 +16,7 @@ import type { OptionalCart } from './interfaces/car.interface';
 import { CreateCartDTO } from './dto/create-cart.dto';
 
 @Controller('carts')
+@UsePipes(ValidationPipe)
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
@@ -36,7 +37,6 @@ export class CartsController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
   createCart(@Body() body: CreateCartDTO) {
     this.cartsService.create(body);
 
