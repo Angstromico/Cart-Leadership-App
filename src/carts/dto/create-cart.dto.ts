@@ -1,7 +1,7 @@
 import { IsArray, IsString } from 'class-validator';
 
 export class CreateCartDTO {
-  @IsString()
+  @IsString({ message: 'ID must be a string' })
   readonly id: string;
 
   @IsArray()
