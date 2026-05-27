@@ -8,15 +8,12 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import type { OptionalCart } from './interfaces/car.interface';
 import { CreateCartDTO } from './dto/create-cart.dto';
 
 @Controller('carts')
-@UsePipes(ValidationPipe)
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
